@@ -73,10 +73,18 @@ if __name__ == '__main__':
 
     # Filtrando columnas a utilizar
     sub_total = sub_total[["Estados", "Solange Cedron", "Angelica Manrique", "Vladir Colunga",
-                                       "Maria Melendez", "Zoila Lozada", "Marcela Castillo", "Miguel Huarcaya", "Total"]]
+                                       "Maria Melendez", "Zoila Lozada", "Marcela Castillo", "Miguel Huarcaya"]]
 
     sub_total = sub_total.set_index("Estados")
+
+    # Ordenando de acuerdo a los que tienen mayores leads asignados
+    sub_total = sub_total.T
+    sub_total = sub_total.sort_values(by="Total", ascending=False)
+    sub_total = sub_total.T
+    sub_total["Total"] = (sub_total["Marcela Castillo"] + sub_total["Zoila Lozada"] + sub_total["Solange Cedron"] + sub_total["Maria Melendez"] + sub_total["Vladir Colunga"] + sub_total["Miguel Huarcaya"] + sub_total["Angelica Manrique"])
+
     total = sub_total["Total"].iloc[-1]
+
     sub_total = sub_total.T # Invertir la matriz
 
     # Creando columnas como resultado de otras
@@ -106,4 +114,4 @@ if __name__ == '__main__':
         frame.to_excel(writer,
                      sheet_name='Primary')
         sub_total.to_excel(writer,
-                     sheet_name='Secondary')
+                     sheet_name='Secondary') 
